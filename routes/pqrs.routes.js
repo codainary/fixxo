@@ -27,10 +27,14 @@ router.get('/:id',
 
 router.post('/',
   validatorHandler(createPqrSchema, 'body'),
-  async (req, res) => {
-    const body = req.body;
-    const newPqr = await service.create(body);
-    res.status(201).json(newPqr);
+  async (req, res, next) => {
+    try {
+      const body = req.body;
+      const newPqr = await service.create(body);
+      res.status(201).json(newPqr);
+    } catch (error) {
+      next(error);
+    }
   }
 );
 

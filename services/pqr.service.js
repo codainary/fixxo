@@ -1,38 +1,20 @@
 const faker = require('faker');
 const boom = require('@hapi/boom');
 
+const { models } = require('../libs/sequelize');
+
 class pqrServices {
 
-  constructor() {
-    this.pqrs = [];
-    this.generate();
-  }
-
-  generate() {
-    const limit = 100
-    for (let index = 0; index < limit; index++) {
-      this.pqrs.push({
-        //id: faker.random.uuid(),
-        id: faker.datatype.uuid(),
-        name: faker.commerce.productName(),
-        price: faker.commerce.price(),
-        deleted: faker.datatype.boolean()
-
-      })
-    }
-  }
+  constructor() { }
 
   async create(data) {
-    const newPqr = {
-      id: faker.datatype.uuid(),
-      ...data
-    }
-    this.pqrs.push(newPqr);
+    const newPqr = await models.Pqr.create(data);
     return newPqr;
   }
 
   async find() {
-    return this.pqrs;
+    const rta = await models.Pqr.findAll();
+    return rta;
   }
 
   async findOne(id) {

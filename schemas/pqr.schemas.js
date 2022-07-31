@@ -1,20 +1,21 @@
 const Joi = require('joi');
 
 const id = Joi.string().uuid();
-const title = Joi.string().min(10).max(50);
-const document = Joi.string().uri();
-const deleted = Joi.boolean();
+const requester = Joi.string().min(10).max(50);
+const email = Joi.string().email();
+const description = Joi.string().min(10).max(100);
+// const deleted = Joi.boolean();
 
 const createPqrSchema = Joi.object({
-  title: title.required(),
-  document:document,
-  deleted: deleted.required(),
+  requester: requester.required(),
+  email: email.required(),
+  description: description.required(),
 });
 
 const updatePqrSchema = Joi.object({
-  title: title,
-  document:document,
-  deleted: deleted,
+  requester: requester,
+  email: email,
+  description: description,
 });
 
 const getPqrSchema = Joi.object({

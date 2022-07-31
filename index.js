@@ -9,6 +9,7 @@ const port = process.env.PORT || 3000;
 
 app.use(express.json());
 
+// Cors settings
 const whitelist = ['http://localhost:3000', 'https://mydomain.com'];
 const options = {
   origin: (origin, callback) => {
@@ -28,22 +29,16 @@ app.get('/', (req, res) => {
   });
 });
 
+// Routing
 routerApi(app);
 
+// General middleware
+// Error middlewares
 app.use(logErrors);
 app.use(boomErrorHandler);
 app.use(errorHandler);
 
 
-// app.get('/kinds/:kindId/pqrs/:pqrId', (req, res) => {
-//   const { kindId, pqrId } = req.params;
-//   res.json({
-//     kindId,
-//     pqrId
-//   });
-// })
-
-
 app.listen(port, () => {
-  console.log('The magic is in the port' + port);
+  console.log('magic in the port ' + port);
 });
