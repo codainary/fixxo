@@ -9,17 +9,22 @@ const PqrSchema = {
     primaryKey: true,
     type: DataTypes.INTEGER
   },
-  requester: {
-    allowNull: false,
+  subject: {
+    allowNull: true,
     type: DataTypes.STRING
+  },
+  context: {
+    allowNull: true,
+    type: DataTypes.TEXT
   },
   email: {
     allowNull: false,
     type: DataTypes.STRING
   },
-  description: {
-    allowNull: false,
-    type: DataTypes.STRING
+  deleted: {
+    allowNull: true,
+    type: DataTypes.TEXT,
+    defaultValue: false
   },
   createdAt: {
     allowNull: false,
@@ -30,8 +35,12 @@ const PqrSchema = {
 }
 
 class Pqr extends Model {
-  static associate() {
+  static associate(models) {
     // associate
+    this.hasOne(models.Maintenance, {
+      as: 'maintenance',
+      foreignKey: 'pqrId'
+    });
   }
 
   static config(sequelize) {

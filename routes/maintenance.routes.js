@@ -1,28 +1,28 @@
 const express = require('express');
 
-const pqrServices = require('./../services/pqr.service');
+const maintenanceServices  = require('./../services/maintenance.service');
 const validatorHandler = require('./../middlewares/validator.handler');
-const { createPqrSchema, updatePqrSchema, getPqrSchema } = require('./../schemas/pqr.schemas');
+const { createMaintenanceSchema, updateMaintenanceSchema, getMaintenanceSchema } = require('./../schemas/maintenance.schemas');
 
 const router = express.Router();
-const service = new pqrServices();
+const service = new maintenanceServices();
 
 router.get('/', async (req, res, next) => {
   try {
-    const pqrs = await service.find();
-    res.json(pqrs);
+    const maintenance = await service.find();
+    res.json(maintenance);
   } catch (error) {
     next(error);
   }
 });
 
 router.get('/:id',
-  validatorHandler(getPqrSchema, 'params'),
+  validatorHandler(getMaintenanceSchema, 'params'),
   async (req, res, next) => {
     try {
       const { id } = req.params;
-      const pqr = await service.findOne(id);
-      res.json(pqr);
+      const maintenance = await service.findOne(id);
+      res.json(maintenance);
     } catch (error) {
       next(error);
     }
@@ -30,12 +30,12 @@ router.get('/:id',
 );
 
 router.post('/',
-  validatorHandler(createPqrSchema, 'body'),
+  validatorHandler(createMaintenanceSchema, 'body'),
   async (req, res, next) => {
     try {
       const body = req.body;
-      const newPqr = await service.create(body);
-      res.status(201).json(newPqr);
+      const newMaintenance = await service.create(body);
+      res.status(201).json(newMaintenance);
     } catch (error) {
       next(error);
     }
@@ -43,21 +43,21 @@ router.post('/',
 );
 
 router.patch('/:id',
-  validatorHandler(getPqrSchema, 'params'),
-  validatorHandler(updatePqrSchema, 'body'),
+  validatorHandler(getMaintenanceSchema, 'params'),
+  validatorHandler(updateMaintenanceSchema, 'body'),
   async (req, res, next) => {
     try {
       const { id } = req.params;
       const body = req.body;
-      const pqr = await service.update(id, body);
-      res.json(pqr);
+      const maintenance = await service.update(id, body);
+      res.json(maintenance);
     } catch (error) {
       next(error);
     }
   });
 
 router.delete('/:id',
-  validatorHandler(getPqrSchema, 'params'),
+  validatorHandler(getMaintenanceSchema, 'params'),
   async (req, res, next) => {
     try {
       const { id } = req.params;

@@ -1,0 +1,57 @@
+const { Model, DataTypes, Sequelize } = require('sequelize');
+
+const { PQR_TABLE } = require('./pqr.model');
+
+const MAINTENANCE_TABLE = 'maintenance';
+
+const MaintenanceSchema = {
+  id: {
+    allowNull: false,
+    autoIncrement: true,
+    primaryKey: true,
+    type: DataTypes.INTEGER
+  },
+  address: {
+    allowNull: false,
+    type: DataTypes.STRING
+  },
+  descripcion: {
+    allowNull: false,
+    type: DataTypes.TEXT
+  },
+  createdAt: {
+    allowNull: false,
+    type: DataTypes.DATE,
+    field: 'created_at',
+    defaultValue: Sequelize.NOW
+  },
+  pqrId: {
+    field: 'pqr_id',
+    allowNull: true,
+    type: DataTypes.INTEGER,
+    unique:true,
+    references: {
+      model: PQR_TABLE,
+      key: 'id'
+    },
+    onUpdate: 'CASCADE',
+    onDelete: 'SET NULL',
+  }
+}
+
+class Maintenance extends Model {
+  static associate(models) {
+    this.belongsTo(models.Pqr, { as: 'pqr' });
+  }
+
+  static config(sequelize) {
+    return {
+      sequelize,
+      tableName: MAINTENANCE_TABLE,
+      modelName: 'Maintenance',
+      timestamps: false
+    }
+  }
+}
+
+module.exports = { MAINTENANCE_TABLE, MaintenanceSchema, Maintenance }

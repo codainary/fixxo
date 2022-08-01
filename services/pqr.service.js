@@ -1,4 +1,3 @@
-const faker = require('faker');
 const boom = require('@hapi/boom');
 
 const { models } = require('../libs/sequelize');
@@ -13,41 +12,30 @@ class pqrServices {
   }
 
   async find() {
-    const rta = await models.Pqr.findAll();
+    const rta = await models.Pqr.findAll({
+      include: ['maintenance']
+    });
     return rta;
   }
 
   async findOne(id) {
-    const pqr = this.pqrs.find(item => item.id === id);
+    const pqr = await models.Pqr.findByPk(id);
     if (!pqr) {
       throw boom.notFound('pqr not found');
-    }
-    if (pqr.deleted) {
-      throw boom.conflict('pqr is deleted');
     }
     return pqr;
   }
 
   async update(id, changes) {
-    const index = this.pqrs.findIndex(item => item.id === id);
-    if (index === -1) {
-      throw boom.notFound('pqr not found');
-    }
-    const pqr = this.pqrs[index];
-    this.pqrs[index] = {
-      ...pqr,
-      ...changes
-    };
-    return this.pqrs[index];
+    const pqr = await this.findOne(id);
+    const rta = await pqr.update(changes);
+    return rta;
   }
 
   async delete(id) {
-    const index = this.pqrs.findIndex(item => item.id === id);
-    if (index === -1) {
-      throw boom.notFound('pqr not found');
-    }
-    this.pqrs.splice(index, 1);
-    return { id }
+    const pqr = await this.findOne(id);
+    await pqr.destroy();
+    return { id };
   }
 
 
