@@ -11,10 +11,26 @@ class pqrServices {
     return newPqr;
   }
 
-  async find() {
-    const rta = await models.Pqr.findAll({
-      include: ['maintenance']
-    });
+  async find(query) {
+    const options = {
+      include: ['maintenance'],
+      where: {}
+    }
+
+    // pagination!
+    const { limit, offset } = query;
+    if (limit && offset) {
+      options.limit = limit;
+      options.offset = offset;
+    }
+
+    // filters!
+    const { deleted } = query;
+    if (deleted) {
+      options.where.deleted = deleted;
+    }
+
+    const rta = await models.Pqr.findAll(options);
     return rta;
   }
 

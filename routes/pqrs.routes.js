@@ -2,19 +2,22 @@ const express = require('express');
 
 const pqrServices = require('./../services/pqr.service');
 const validatorHandler = require('./../middlewares/validator.handler');
-const { createPqrSchema, updatePqrSchema, getPqrSchema } = require('./../schemas/pqr.schemas');
+const { createPqrSchema, updatePqrSchema, getPqrSchema, queryPqrSchema } = require('./../schemas/pqr.schemas');
 
 const router = express.Router();
 const service = new pqrServices();
 
-router.get('/', async (req, res, next) => {
-  try {
-    const pqrs = await service.find();
-    res.json(pqrs);
-  } catch (error) {
-    next(error);
+router.get('/',
+  validatorHandler(queryPqrSchema, 'query'),
+  async (req, res, next) => {
+    try {
+      const pqrs = await service.find(req.query);
+      res.json(pqrs);
+    } catch (error) {
+      next(error);
+    }
   }
-});
+);
 
 router.get('/:id',
   validatorHandler(getPqrSchema, 'params'),

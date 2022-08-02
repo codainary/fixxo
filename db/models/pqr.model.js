@@ -1,5 +1,7 @@
 const { Model, DataTypes, Sequelize } = require('sequelize');
 
+const { USER_TABLE } = require('./user.model');
+
 const PQR_TABLE = 'pqrs';
 
 const PqrSchema = {
@@ -31,6 +33,18 @@ const PqrSchema = {
     type: DataTypes.DATE,
     field: 'created_at',
     defaultValue: Sequelize.NOW
+  },
+  userId: {
+    field: 'user_id',
+    allowNull: true,
+    type: DataTypes.INTEGER,
+    //unique: true, not used for One to Many associations
+    references: {
+      model: USER_TABLE,
+      key: 'id'
+    },
+    onUpdate: 'CASCADE',
+    onDelete: 'SET NULL',
   }
 }
 
@@ -41,6 +55,7 @@ class Pqr extends Model {
       as: 'maintenance',
       foreignKey: 'pqrId'
     });
+    this.belongsTo(models.User, { as: 'user' });
   }
 
   static config(sequelize) {

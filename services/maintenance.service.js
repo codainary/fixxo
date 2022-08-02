@@ -13,14 +13,19 @@ class maintenanceServices {
 
   async find() {
     const rta = await models.Maintenance.findAll({
-      include: ['pqr'], // array of all associations for maintenance
+      include: [
+        {
+          association: 'pqr',
+          include: 'user'
+        }
+      ]
     });
     return rta;
   }
 
   async findOne(id) {
     const maintenance = await models.Maintenance.findByPk(id);
-    if (!maintenance){
+    if (!maintenance) {
       throw boom.notFound('maintenance not found');
     }
     return maintenance;

@@ -1,4 +1,4 @@
-const { ValidationError } = require('sequelize');
+const { ValidationError, ForeignKeyConstraintError } = require('sequelize');
 
 function logErrors(err, req, res, next) {
   console.error(err);
@@ -21,7 +21,7 @@ function boomErrorHandler(err, req, res, next) {
 }
 
 function ormErrorHandler(err, req, res, next) {
-  if (err instanceof ValidationError) {
+  if (err instanceof ValidationError || err instanceof ForeignKeyConstraintError) {
     res.status(409).json({
       statusCode: 409,
       message: err.name,
