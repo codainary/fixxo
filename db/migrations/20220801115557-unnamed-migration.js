@@ -1,6 +1,6 @@
 'use strict';
 
-const { PQR_TABLE } = require('./../models/pqr.model');
+//const { PQR_TABLE } = require('./../models/pqr.model');
 const { USER_TABLE } = require('./../models/user.model');
 const { DataTypes, Sequelize } = require('sequelize');
 
@@ -38,23 +38,10 @@ module.exports = {
         defaultValue: Sequelize.NOW
       }
     });
-    await queryInterface.addColumn(PQR_TABLE, 'userId', {
-      userId: {
-        field: 'user_id',
-        allowNull: true,
-        type: DataTypes.INTEGER,
-        references: {
-          model: USER_TABLE,
-          key: 'id'
-        },
-        onUpdate: 'CASCADE',
-        onDelete: 'SET NULL',
-      }
-    });
   },
 
   async down(queryInterface) {
     await queryInterface.dropTable(USER_TABLE);
-    await queryInterface.removeColumn(PQR_TABLE, 'userId');
+    //await queryInterface.removeColumn(PQR_TABLE, 'userId');
   }
 };

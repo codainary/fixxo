@@ -1,6 +1,6 @@
 'use strict';
 
-//const { USER_TABLE } = require('./../models/user.model');
+const { USER_TABLE } = require('./../models/user.model');
 const { PQR_TABLE } = require('./../models/pqr.model');
 const { DataTypes, Sequelize } = require('sequelize');
 
@@ -36,6 +36,17 @@ module.exports = {
         field: 'created_at',
         defaultValue: Sequelize.NOW
       },
+      userId: {
+        field: 'user_id',
+        allowNull: true,
+        type: DataTypes.INTEGER,
+        references: {
+          model: USER_TABLE,
+          key: 'id'
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'SET NULL',
+      }
     });
   },
 
