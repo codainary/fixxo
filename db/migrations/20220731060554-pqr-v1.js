@@ -13,9 +13,22 @@ module.exports = {
         primaryKey: true,
         type: DataTypes.INTEGER
       },
+      subject: {
+        allowNull: true,
+        type: DataTypes.STRING
+      },
+      context: {
+        allowNull: true,
+        type: DataTypes.STRING
+      },
       email: {
         allowNull: false,
         type: DataTypes.STRING
+      },
+      deleted: {
+        allowNull: true,
+        type: DataTypes.STRING,
+        defaultValue: false
       },
       createdAt: {
         allowNull: false,

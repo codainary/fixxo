@@ -38,6 +38,7 @@ const PqrSchema = {
     field: 'user_id',
     allowNull: true,
     type: DataTypes.INTEGER,
+    //unique: true, not used for One to Many associations
     references: {
       model: USER_TABLE,
       key: 'id'
