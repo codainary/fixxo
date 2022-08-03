@@ -9,20 +9,20 @@ module.exports = {
       subject: {
         allowNull: true,
         type: DataTypes.STRING
-      },
+      }
     });
     await queryInterface.addColumn(PQR_TABLE, 'context', {
       context: {
         allowNull: true,
         type: DataTypes.STRING
-      },
+      }
     });
     await queryInterface.addColumn(PQR_TABLE, 'deleted', {
       deleted: {
         allowNull: true,
         type: DataTypes.STRING,
         defaultValue: false
-      },
+      }
     });
   },
 

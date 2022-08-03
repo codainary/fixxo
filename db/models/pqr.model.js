@@ -17,7 +17,7 @@ const PqrSchema = {
   },
   context: {
     allowNull: true,
-    type: DataTypes.TEXT
+    type: DataTypes.STRING
   },
   email: {
     allowNull: false,
@@ -25,7 +25,7 @@ const PqrSchema = {
   },
   deleted: {
     allowNull: true,
-    type: DataTypes.TEXT,
+    type: DataTypes.STRING,
     defaultValue: false
   },
   createdAt: {
@@ -38,7 +38,6 @@ const PqrSchema = {
     field: 'user_id',
     allowNull: true,
     type: DataTypes.INTEGER,
-    //unique: true, not used for One to Many associations
     references: {
       model: USER_TABLE,
       key: 'id'
