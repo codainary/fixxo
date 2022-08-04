@@ -3,6 +3,7 @@ const cors = require('cors');
 const routerApi = require('./routes');
 
 const { logErrors, errorHandler, boomErrorHandler, ormErrorHandler } = require('./middlewares/error.handler');
+const { checkApiKey } = require('./middlewares/auth.handler');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -22,7 +23,7 @@ const options = {
 }
 app.use(cors(options));
 
-app.get('/', (req, res) => {
+app.get('/', checkApiKey, (req, res) => {
   res.json({
     server: 'On',
     saying: 'What the program is?'
@@ -33,6 +34,7 @@ app.get('/', (req, res) => {
 routerApi(app);
 
 // General middleware
+
 // Error middlewares
 app.use(logErrors);
 app.use(ormErrorHandler);
@@ -41,5 +43,5 @@ app.use(errorHandler);
 
 
 app.listen(port, () => {
-  console.log('magic in the port ' + port);
+  //console.log('magic in the port ' + port);
 });
