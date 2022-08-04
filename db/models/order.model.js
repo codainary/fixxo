@@ -36,11 +36,15 @@ class Order extends Model {
     this.belongsTo(models.Official, {
       as: 'official',
     });
-    this.belongsToMany(models.Element,{
+    this.belongsToMany(models.Element, {
       as: 'elements',
       through: models.OrderElement,
       foreignKey: 'orderId',
       otherKey: 'elementId'
+    });
+    this.hasOne(models.Maintenance, {
+      as: 'maintenance',
+      foreignKey: 'orderId'
     });
   }
 

@@ -1,22 +1,22 @@
 const Joi = require('joi');
 
 const id = Joi.number().integer();
-const name = Joi.string().max(50);
+const firstName = Joi.string().max(50);
 const lastName = Joi.string().max(50);
 const phone = Joi.string().max(10);
 const userId = Joi.number().integer();
 
 const createOfficialSchema = Joi.object({
-  name: name.required(),
+  firstName: firstName.required(),
   lastName: lastName.required(),
   phone: phone.required(),
   userId: userId.required()
 });
 
 const updateOfficialSchema = Joi.object({
-  name: name.required(),
-  lastName: lastName.required(),
-  phone: phone.required()
+  firstName,
+  lastName,
+  phone
 });
 
 const getOfficialSchema = Joi.object({

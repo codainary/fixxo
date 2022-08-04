@@ -11,7 +11,7 @@ const OfficialSchema =  {
     primaryKey: true,
     type: DataTypes.INTEGER
   },
-  name: {
+  firstName: {
     allowNull: false,
     type: DataTypes.STRING,
   },

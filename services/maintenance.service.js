@@ -17,7 +17,8 @@ class maintenanceServices {
         {
           association: 'pqr',
           include: 'user'
-        }
+        },
+        'order'
       ]
     });
     return rta;

@@ -1,8 +1,9 @@
 const { Model, DataTypes, Sequelize } = require('sequelize');
 
 const { PQR_TABLE } = require('./pqr.model');
+const { ORDER_TABLE } = require('./order.model');
 
-const MAINTENANCE_TABLE = 'maintenance';
+const MAINTENANCE_TABLE = 'maintenances';
 
 const MaintenanceSchema = {
   id: {
@@ -29,9 +30,21 @@ const MaintenanceSchema = {
     field: 'pqr_id',
     allowNull: true,
     type: DataTypes.INTEGER,
-    unique:true,
+    unique: true,
     references: {
       model: PQR_TABLE,
+      key: 'id'
+    },
+    onUpdate: 'CASCADE',
+    onDelete: 'SET NULL',
+  },
+  orderId: {
+    field: 'order_id',
+    allowNull: true,
+    type: DataTypes.INTEGER,
+    unique: true,
+    references: {
+      model: ORDER_TABLE,
       key: 'id'
     },
     onUpdate: 'CASCADE',
@@ -42,6 +55,7 @@ const MaintenanceSchema = {
 class Maintenance extends Model {
   static associate(models) {
     this.belongsTo(models.Pqr, { as: 'pqr' });
+    this.belongsTo(models.Order, { as: 'order' });
   }
 
   static config(sequelize) {

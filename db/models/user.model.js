@@ -9,21 +9,15 @@ const UserSchema = {
     primaryKey: true,
     type: DataTypes.INTEGER
   },
-  firstName: {
-    allowNull: false,
-    type: DataTypes.STRING,
-    field: 'first_name'
-  },
-  lastName: {
-    allowNull: false,
-    type: DataTypes.STRING,
-    field: 'last_name'
-  },
   username: {
     allowNull: false,
     type: DataTypes.STRING
   },
   password: {
+    allowNull: false,
+    type: DataTypes.STRING
+  },
+  role: {
     allowNull: false,
     type: DataTypes.STRING
   },
