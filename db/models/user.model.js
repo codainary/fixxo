@@ -19,7 +19,13 @@ const UserSchema = {
   },
   role: {
     allowNull: false,
-    type: DataTypes.STRING
+    type: DataTypes.STRING,
+    defaultValue: 'claimant'
+  },
+  deleted: {
+    allowNull: false,
+    type: DataTypes.BOOLEAN,
+    defaultValue: false
   },
   createdAt: {
     allowNull: false,

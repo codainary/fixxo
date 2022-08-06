@@ -1,4 +1,6 @@
 const boom = require('@hapi/boom');
+const bcrypt = require('bcrypt');
+const { database } = require('faker/lib/locales/en');
 
 const { models } = require('../libs/sequelize');
 
@@ -7,7 +9,21 @@ class pqrServices {
   constructor() { }
 
   async create(data) {
-    const newPqr = await models.Pqr.create(data);
+    const hash = await bcrypt.hash(data.user.password, 10);
+    const newData = {
+      ...data,
+      user: {
+        ...data.user,
+        password: hash
+      }
+    }
+    //const id data
+    const user = await models.User.findByPk(id);
+    const newPqr = await models.Pqr.create(newData, {
+      include: ['user']
+    });
+    //console.log(newPqr)
+    delete newPqr.dataValues.user.dataValues.password;
     return newPqr;
   }
 

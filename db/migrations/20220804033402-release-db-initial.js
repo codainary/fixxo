@@ -29,7 +29,8 @@ module.exports = {
       },
       role: {
         allowNull: false,
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
+        defaultValue: 'claimant'
       },
       createdAt: {
         allowNull: false,
