@@ -17,12 +17,9 @@ class pqrServices {
         password: hash
       }
     }
-    //const id data
-    const user = await models.User.findByPk(id);
     const newPqr = await models.Pqr.create(newData, {
       include: ['user']
     });
-    //console.log(newPqr)
     delete newPqr.dataValues.user.dataValues.password;
     return newPqr;
   }

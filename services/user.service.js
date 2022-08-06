@@ -8,6 +8,8 @@ class UserServices {
 
   async create(data) {
     const newUser = await models.User.create(data);
+    // console.log(newUser);
+    delete newUser.dataValues.password;
     return newUser;
   }
 

@@ -4,6 +4,7 @@ const id = Joi.string();
 const username = Joi.string().max(15);
 const password = Joi.string().min(10).max(150);
 const role = Joi.string().min(5);
+const deleted = Joi.boolean().default(false);
 
 const createUserSchema = Joi.object({
   username: username.required(),
@@ -14,7 +15,8 @@ const createUserSchema = Joi.object({
 const updateUserSchema = Joi.object({
   username,
   password,
-  role
+  role,
+  deleted
 });
 
 const getUserSchema = Joi.object({
