@@ -21,7 +21,8 @@ module.exports = {
       },
       username: {
         allowNull: false,
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
+        unique: true
       },
       password: {
         allowNull: false,
@@ -31,6 +32,11 @@ module.exports = {
         allowNull: false,
         type: DataTypes.STRING,
         defaultValue: 'claimant'
+      },
+      deleted: {
+        allowNull: false,
+        type: DataTypes.BOOLEAN,
+        defaultValue: false
       },
       createdAt: {
         allowNull: false,

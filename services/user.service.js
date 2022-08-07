@@ -18,6 +18,13 @@ class UserServices {
     return users;
   }
 
+  async findByUsername(username) {
+    const users = await models.User.findOne({
+      where: { username }
+    });
+    return users;
+  }
+
   async findOne(id) {
     const user = await models.User.findByPk(id, { include: 'pqrs' });
     if (!user) {

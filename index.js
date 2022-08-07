@@ -23,6 +23,9 @@ const options = {
 }
 app.use(cors(options));
 
+// strategies of passport
+require('./utils/auth');
+
 app.get('/', checkApiKey, (req, res) => {
   res.json({
     server: 'On',
@@ -43,5 +46,5 @@ app.use(errorHandler);
 
 
 app.listen(port, () => {
-  //console.log('magic in the port ' + port);
+  console.log('magic in the port ' + port);
 });
