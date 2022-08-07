@@ -11,12 +11,14 @@ const router = express.Router();
 const service = new maintenanceServices();
 
 
-router.get('/my-maintenances',
+router.get('/own',
   passport.authenticate('jwt', { session: false }),
-  //checkRoles('admin'), not yet
+  checkRoles('admin'),
   async (req, res, next) => {
     try {
-      // code here!
+      const user = req.user;
+      const maintenances = await service.findByUser(user.sub);
+      res.json(maintenances);
     } catch (error) {
       next(error);
     }

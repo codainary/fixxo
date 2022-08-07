@@ -24,6 +24,22 @@ class maintenanceServices {
     return rta;
   }
 
+  async findByUser(userId) {
+    const maintenances = await models.Maintenance.findAll({
+      where:{
+        '$pqr.user.id$': userId
+      },
+      include: [
+        {
+          association: 'pqr',
+          include: 'user'
+        },
+       //'order' NOT YET
+      ]
+    });
+    return maintenances;
+  }
+
   async findOne(id) {
     const maintenance = await models.Maintenance.findByPk(id);
     if (!maintenance) {
