@@ -7,6 +7,18 @@ const { createPqrSchema, updatePqrSchema, getPqrSchema, queryPqrSchema } = requi
 const router = express.Router();
 const service = new pqrServices();
 
+router.get('/my-pqrs',
+  validatorHandler(queryPqrSchema, 'query'),
+  async (req, res, next) => {
+    try {
+      const pqrs = await service.find(req.query);
+      res.json(pqrs);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
 router.get('/',
   validatorHandler(queryPqrSchema, 'query'),
   async (req, res, next) => {

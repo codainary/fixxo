@@ -55,6 +55,10 @@ class pqrServices {
     return pqr;
   }
 
+  async findByUser(){
+    // code here!
+  }
+
   async update(id, changes) {
     const pqr = await this.findOne(id);
     const rta = await pqr.update(changes);

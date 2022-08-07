@@ -2,16 +2,35 @@ const express = require('express');
 const passport = require('passport');
 const maintenanceServices = require('./../services/maintenance.service');
 const validatorHandler = require('./../middlewares/validator.handler');
-const { createMaintenanceSchema, updateMaintenanceSchema, getMaintenanceSchema } = require('./../schemas/maintenance.schemas');
+const { checkRoles } = require('./../middlewares/auth.handler');
+const { createMaintenanceSchema,
+  updateMaintenanceSchema,
+  getMaintenanceSchema } = require('./../schemas/maintenance.schemas');
 
 const router = express.Router();
 const service = new maintenanceServices();
 
+
+router.get('/my-maintenances',
+  passport.authenticate('jwt', { session: false }),
+  //checkRoles('admin'), not yet
+  async (req, res, next) => {
+    try {
+      // code here!
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
 router.get('/',
   passport.authenticate('jwt', { session: false }),
+  checkRoles('admin'),
   async (req, res, next) => {
     try {
       const maintenance = await service.find();
+      //console.log(maintenance.);
+      //delete maintenance.dataValues.pqr.dataValues.user.dataValues.password;
       res.json(maintenance);
     } catch (error) {
       next(error);
@@ -21,6 +40,7 @@ router.get('/',
 
 router.get('/:id',
   passport.authenticate('jwt', { session: false }),
+  checkRoles('admin'),
   validatorHandler(getMaintenanceSchema, 'params'),
   async (req, res, next) => {
     try {
@@ -35,6 +55,7 @@ router.get('/:id',
 
 router.post('/',
   passport.authenticate('jwt', { session: false }),
+  checkRoles('admin'),
   validatorHandler(createMaintenanceSchema, 'body'),
   async (req, res, next) => {
     try {
@@ -49,6 +70,7 @@ router.post('/',
 
 router.patch('/:id',
   passport.authenticate('jwt', { session: false }),
+  checkRoles('admin'),
   validatorHandler(getMaintenanceSchema, 'params'),
   validatorHandler(updateMaintenanceSchema, 'body'),
   async (req, res, next) => {
@@ -60,10 +82,12 @@ router.patch('/:id',
     } catch (error) {
       next(error);
     }
-  });
+  }
+);
 
 router.delete('/:id',
   passport.authenticate('jwt', { session: false }),
+  checkRoles('admin'),
   validatorHandler(getMaintenanceSchema, 'params'),
   async (req, res, next) => {
     try {
@@ -73,7 +97,8 @@ router.delete('/:id',
     } catch (error) {
       next(error);
     }
-  });
+  }
+);
 
 
 module.exports = router;

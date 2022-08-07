@@ -14,7 +14,10 @@ router.post('/login',
         sub: user.id,
         role: user.role
       }
-      const token = jwt.sign(payload, config.jwtSecret);
+      const token = jwt.sign(payload, config.jwtSecret, {
+        algorithm: 'HS256',
+        expiresIn: '10h' // if ommited, the token will not expire
+      });
       res.json({
         user,
         token
