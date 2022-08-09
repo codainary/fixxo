@@ -25,6 +25,10 @@ class pqrServices {
   }
 
   async find(query) {
+    // Fetch all models associated with User
+    //User.findAll({ include: { all: true } });
+    // Fetch all models associated with User and their nested associations (recursively)
+    //User.findAll({ include: { all: true, nested: true } });
     const options = {
       include: ['maintenance'],
       where: {}
@@ -55,7 +59,7 @@ class pqrServices {
     return pqr;
   }
 
-  async findByUser(){
+  async findByUser() {
     // code here!
   }
 

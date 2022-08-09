@@ -6,7 +6,7 @@ const { logErrors, errorHandler, boomErrorHandler, ormErrorHandler } = require('
 const { checkApiKey } = require('./middlewares/auth.handler');
 
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 2022;
 
 app.use(express.json());
 

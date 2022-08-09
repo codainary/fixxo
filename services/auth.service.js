@@ -21,10 +21,11 @@ class AuthServices {
       throw boom.unauthorized();
     }
     delete user.dataValues.password;
+    delete user.dataValues.recoveryToken;
     return user;
   }
 
-  async signToken(user) {
+  signToken(user) {
     const payload = {
       sub: user.id,
       role: user.role
