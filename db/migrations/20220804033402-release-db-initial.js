@@ -28,6 +28,11 @@ module.exports = {
         allowNull: false,
         type: DataTypes.STRING
       },
+      recoveryToken: {
+        allowNull: true,
+        field: 'recovery_token',
+        type: DataTypes.STRING
+      },
       role: {
         allowNull: false,
         type: DataTypes.STRING,
@@ -37,6 +42,11 @@ module.exports = {
         allowNull: false,
         type: DataTypes.BOOLEAN,
         defaultValue: false
+      },
+      email: {
+        allowNull: false,
+        type: DataTypes.STRING,
+        unique: true
       },
       createdAt: {
         allowNull: false,

@@ -19,6 +19,11 @@ const UserSchema = {
     allowNull: false,
     type: DataTypes.STRING
   },
+  recoveryToken: {
+    allowNull: true,
+    field: 'recovery_token',
+    type: DataTypes.STRING
+  },
   role: {
     allowNull: false,
     type: DataTypes.STRING,
@@ -28,6 +33,11 @@ const UserSchema = {
     allowNull: false,
     type: DataTypes.BOOLEAN,
     defaultValue: false
+  },
+  email: {
+    allowNull: false,
+    type: DataTypes.STRING,
+    unique: true
   },
   createdAt: {
     allowNull: false,
@@ -55,7 +65,7 @@ class User extends Model {
       tableName: USER_TABLE,
       timestamps: false,
       modelName: 'User',
-      hooks:{
+      hooks: {
         beforeCreate: async (user, options) => {
           const password = await bcrypt.hash(user.password, 10);
           user.password = password;
