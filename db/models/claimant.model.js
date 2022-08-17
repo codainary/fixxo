@@ -71,6 +71,14 @@ const ClaimantSchema = {
 class Claimant extends Model {
   static associate(models) {
     this.belongsTo(models.User, { as: 'user' });
+    // this.hasOne(models.Claimant, {
+    //   as: 'claimant',
+    //   foreignKey: 'claimantId'
+    // });
+    this.hasMany(models.Pqr, {
+      as: 'claimant',
+      foreignKey: 'claimantId'
+    });
   }
   static config(sequelize) {
     return {
