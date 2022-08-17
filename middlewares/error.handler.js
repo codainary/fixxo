@@ -23,10 +23,12 @@ function boomErrorHandler(err, req, res, next) {
 
 function ormErrorHandler(err, req, res, next) {
   if (err instanceof ValidationError || err instanceof ForeignKeyConstraintError) {
+    const errors = err.errors;
+    delete err.errors[0].instance;
     res.status(409).json({
       statusCode: 409,
       message: err.name,
-      errors: err.errors
+      errors,
     });
   }
   next(err);
