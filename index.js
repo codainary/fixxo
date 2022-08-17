@@ -12,7 +12,7 @@ const port = process.env.PORT || 2022;
 app.use(express.json());
 
 // Cors settings
-const whitelist = ['http://localhost:3000', 'https://mydomain.com'];
+const whitelist = ['http://localhost:3000/', 'https://siap-api-prod.herokuapp.com/'];
 const options = {
   origin: (origin, callback) => {
     if (whitelist.includes(origin) || !origin) {
