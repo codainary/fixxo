@@ -25,6 +25,7 @@ function setupModels(sequelize) {
   Official.associate(sequelize.models);
   Element.associate(sequelize.models);
   Order.associate(sequelize.models);
+  Claimant.associate(sequelize.models);
 
   //OrderElement.associate(sequelize.models); this is a join table, its associations are outsite
 

@@ -70,7 +70,6 @@ const ClaimantSchema = {
 
 class Claimant extends Model {
   static associate(models) {
-    this.belongsTo(models.User, { as: 'user' });
     // this.hasOne(models.Claimant, {
     //   as: 'claimant',
     //   foreignKey: 'claimantId'
@@ -79,6 +78,7 @@ class Claimant extends Model {
       as: 'claimant',
       foreignKey: 'claimantId'
     });
+    this.belongsTo(models.User, { as: 'user' });
   }
   static config(sequelize) {
     return {

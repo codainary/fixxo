@@ -46,6 +46,10 @@ const PqrSchema = {
     onUpdate: 'CASCADE',
     onDelete: 'SET NULL',
   },
+  file: {
+    allowNull: true,
+    type: DataTypes.JSONB
+  },
   // email: {
   //   allowNull: false,
   //   type: DataTypes.STRING

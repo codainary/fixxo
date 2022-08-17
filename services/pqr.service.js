@@ -7,11 +7,43 @@ class pqrServices {
   constructor() { }
 
   async create(data) {
-    //const hash = await bcrypt.hash(data.user.password, 10);
-    const newData = {
-      ...data
-    }
-    const newPqr = await models.Pqr.create(newData);
+    // const hash = await bcrypt.hash(data.password, 10);
+    // const newData = {
+
+    // }
+    // const newPqr = await models.Pqr.create(data, {
+    //   include: [
+    //     {
+    //       association: 'claimant',
+    //       include: ['user']
+    //     }
+    //   ]
+    // });
+    //const hash = await bcrypt.hash(data.password, 10);
+    const newPqr = await models.Pqr.create({
+      subject: data.subject,
+      context: data.context,
+      issueAddress: data.issueAddress,
+      type: data.type,
+      claimant: {
+        claimant_id: data.claimant_id,
+        firstName: data.firstName,
+        lastName: data.lastName,
+        phone: data.phone,
+        email: data.email,
+        address: data.address,
+        user: [{
+          email: data.email,
+          username: data.username,
+          password: data.password
+        }]
+      }
+    }, {
+      include: [{
+        association: 'claimant',
+        include: ['user']
+      }]
+    });
     //delete newPqr.dataValues.user.dataValues.password;
     return newPqr;
   }
