@@ -2,12 +2,13 @@ const express = require('express');
 const cors = require('cors');
 const routerApi = require('./routes');
 
-const { logErrors, errorHandler, boomErrorHandler, ormErrorHandler } = require('./middlewares/error.handler');
+const { logErrors, errorHandler, boomErrorHandler, ormErrorHandler, uploadErrorHandler } = require('./middlewares/error.handler');
 const { checkApiKey } = require('./middlewares/auth.handler');
 
 const app = express();
 const port = process.env.PORT || 2022;
 
+//app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
 // Cors settings
@@ -39,6 +40,7 @@ routerApi(app);
 // General middleware
 
 // Error middlewares
+app.use(uploadErrorHandler);
 app.use(logErrors);
 app.use(ormErrorHandler);
 app.use(boomErrorHandler);

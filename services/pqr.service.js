@@ -1,7 +1,5 @@
 const boom = require('@hapi/boom');
 const bcrypt = require('bcrypt');
-const { database } = require('faker/lib/locales/en');
-
 const { models } = require('../libs/sequelize');
 
 class pqrServices {
@@ -9,26 +7,20 @@ class pqrServices {
   constructor() { }
 
   async create(data) {
-    const hash = await bcrypt.hash(data.user.password, 10);
+    //const hash = await bcrypt.hash(data.user.password, 10);
     const newData = {
-      ...data,
-      user: {
-        ...data.user,
-        password: hash
-      }
+      ...data
     }
-    const newPqr = await models.Pqr.create(newData, {
-      include: ['user']
-    });
-    delete newPqr.dataValues.user.dataValues.password;
+    const newPqr = await models.Pqr.create(newData);
+    //delete newPqr.dataValues.user.dataValues.password;
     return newPqr;
   }
 
   async find(query) {
-    // Fetch all models associated with User
-    //User.findAll({ include: { all: true } });
-    // Fetch all models associated with User and their nested associations (recursively)
-    //User.findAll({ include: { all: true, nested: true } });
+    /* Fetch all models associated with User */
+    /* User.findAll({ include: { all: true } }); */
+    /* Fetch all models associated with User and their nested associations (recursively) */
+    /* User.findAll({ include: { all: true, nested: true } }); */
     const options = {
       include: ['maintenance'],
       where: {}
@@ -79,3 +71,5 @@ class pqrServices {
 }
 
 module.exports = pqrServices;
+
+//{	"subject": "this is anothear pqr1",	"context": "No description",	"email": "gpereira@mail.com"}

@@ -1,4 +1,5 @@
 const { ValidationError, ForeignKeyConstraintError } = require('sequelize');
+const multer = require("multer");
 
 function logErrors(err, req, res, next) {
   console.error(err);
@@ -31,4 +32,15 @@ function ormErrorHandler(err, req, res, next) {
   next(err);
 }
 
-module.exports = { logErrors, errorHandler, boomErrorHandler, ormErrorHandler }
+function uploadErrorHandler(err, req, res, next) {
+  if (err instanceof multer.MulterError) {
+    res.status(409).json({
+      statusCode: 409,
+      message: err.message,
+      errors: err.name
+    });
+  }
+  next(err);
+}
+
+module.exports = { logErrors, errorHandler, boomErrorHandler, ormErrorHandler, uploadErrorHandler }

@@ -17,10 +17,10 @@ const createPqrSchema = Joi.object({
   subject: subject.required(),
   context: context.required(),
   email: email.required(),
-  user: Joi.object({
-    username: username.required(),
-    password: password.required()
-  })
+  // user: Joi.object({
+  //   username: username.required(),
+  //   password: password.required()
+  // })
 });
 
 const updatePqrSchema = Joi.object({

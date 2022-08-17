@@ -57,6 +57,10 @@ class User extends Model {
       as: 'official',
       foreignKey: 'userId'
     });
+    this.hasOne(models.Claimant, {
+      as: 'claimant',
+      foreignKey: 'userId'
+    });
   }
 
   static config(sequelize) {

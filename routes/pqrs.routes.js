@@ -1,5 +1,5 @@
 const express = require('express');
-
+const { upload } = require('./../libs/multer');
 const pqrServices = require('./../services/pqr.service');
 const validatorHandler = require('./../middlewares/validator.handler');
 const { createPqrSchema, updatePqrSchema, getPqrSchema, queryPqrSchema } = require('./../schemas/pqr.schemas');
@@ -45,10 +45,13 @@ router.get('/:id',
 );
 
 router.post('/',
+  upload.single('attached'),
   validatorHandler(createPqrSchema, 'body'),
   async (req, res, next) => {
     try {
       const body = req.body;
+      const file = req.file;
+      // objeto con la tada para crea claimant
       const newPqr = await service.create(body);
       res.status(201).json(newPqr);
     } catch (error) {
