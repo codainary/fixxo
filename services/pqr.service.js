@@ -7,12 +7,17 @@ class pqrServices {
 
   async create(data) {
 
-    const newPqr = await models.Pqr.create(data, {
-      include: [{
-        association: 'claimant',
-        include: ['user']
-      }]
-    });
+    //TODO: Validate if claiment or user exists.
+
+    const newPqr = await models.Pqr.create(data, { include: { all: true, nested: true } });
+    delete newPqr.dataValues.claimant.dataValues.user.dataValues.password
+
+    if (newPqr) {
+      //TODO: Create token to sign in if user want to track your pqrs status.
+    }
+
+    // emailme via email
+
 
     return newPqr;
 

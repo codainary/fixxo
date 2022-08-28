@@ -56,7 +56,7 @@ router.post('/',
 
       const newPqr = await service.create(dataObj);
 
-      res.status(201).json('OK');
+      res.status(201).json(newPqr);
 
     } catch (error) {
       next(error);
