@@ -1,9 +1,5 @@
 const boom = require('@hapi/boom');
-const bcrypt = require('bcrypt');
 const { models } = require('../libs/sequelize');
-
-const UserServices = require('./user.service');
-const service = new UserServices();
 
 class pqrServices {
 
@@ -11,45 +7,14 @@ class pqrServices {
 
   async create(data) {
 
-    // vlaidar si el clamian no existe
-    if (!none) {
-      // validate if user exist
-      const user = await service.findByUsername(data.username);
-      if (!user) {
-        //throw boom.notFound('user not found');
-        const newPqr = await models.Pqr.create({
-          subject: data.subject,
-          context: data.context,
-          issueAddress: data.issueAddress,
-          type: data.type,
-          claimant: {
-            claimant_id: data.claimant_id,
-            firstName: data.firstName,
-            lastName: data.lastName,
-            phone: data.phone,
-            email: data.email,
-            address: data.address,
-            user: [{
-              email: data.email,
-              username: data.username,
-              password: data.password
-            }]
-          }
-        }, {
-          include: [{
-            association: 'claimant',
-            include: ['user']
-          }]
-        });
-        return newPqr;
-      }else{
+    const newPqr = await models.Pqr.create(data, {
+      include: [{
+        association: 'claimant',
+        include: ['user']
+      }]
+    });
 
-        // code here
-      }
-    }else{
-      // crear pqr con los id de los usuario y claiman
-      return newPqr;
-    }
+    return newPqr;
 
   }
 

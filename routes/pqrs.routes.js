@@ -46,13 +46,18 @@ router.get('/:id',
 
 router.post('/',
   upload.single('file'),
-  //validatorHandler(createPqrSchema, 'body'),
+  validatorHandler(createPqrSchema, 'body'),
   async (req, res, next) => {
     try {
-      const body = JSON.stringify(req.body);
-      const newPqr = await service.create(body);
 
-      res.status(201).json(newPqr);
+      const { data } = req.body;
+
+      const dataObj = JSON.parse(data);
+
+      const newPqr = await service.create(dataObj);
+
+      res.status(201).json('OK');
+
     } catch (error) {
       next(error);
     }

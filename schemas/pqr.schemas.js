@@ -4,6 +4,8 @@ const id = Joi.string();
 const subject = Joi.string().min(10).max(50);
 const context = Joi.string().min(10).max(150);
 const email = Joi.string().email();
+const data = Joi.string().min(10);
+
 //const userId = Joi.number().integer();
 const username = Joi.string().max(15);
 const password = Joi.string().min(10).max(150);
@@ -14,9 +16,7 @@ const offset = Joi.number().integer();
 const deleted = Joi.string();
 
 const createPqrSchema = Joi.object({
-  subject: subject.required(),
-  context: context.required(),
-  email: email.required(),
+  data: data.required()
   // user: Joi.object({
   //   username: username.required(),
   //   password: password.required()
