@@ -9,7 +9,7 @@ const UserServices = require('./user.service');
 const service = new UserServices();
 
 class AuthServices {
-  constructor() { }
+  constructor() {}
 
   async getUser(username, password) {
     const user = await service.findByUsername(username);

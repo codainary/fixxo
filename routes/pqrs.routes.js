@@ -49,8 +49,9 @@ router.post('/',
   //validatorHandler(createPqrSchema, 'body'),
   async (req, res, next) => {
     try {
-      const body = req.body;
+      const body = JSON.stringify(req.body);
       const newPqr = await service.create(body);
+
       res.status(201).json(newPqr);
     } catch (error) {
       next(error);
