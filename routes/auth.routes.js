@@ -42,4 +42,16 @@ router.post('/change-password',
   }
 );
 
+router.post('/sign-up',
+  async (req, res, next) => {
+    try {
+      const body = req.body;
+      const rta = await service.createUser(body);
+      res.status(201).json({ rta, msg: 'User created' });
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
 module.exports = router;

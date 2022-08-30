@@ -9,7 +9,7 @@ const UserServices = require('./user.service');
 const service = new UserServices();
 
 class AuthServices {
-  constructor() {}
+  constructor() { }
 
   async getUser(username, password) {
     const user = await service.findByUsername(username);
@@ -89,6 +89,26 @@ class AuthServices {
 
   }
 
+  async createUser(data) {
+    const findUser = await service.findByUsername(data.username);
+    if (findUser) {
+      throw boom.unauthorized('user exists');
+    }
+    const code = Math.floor(100000 + Math.random() * 900000).toString();
+    data.verifyCode = code;
+    const newUser = await service.create(data);
+    if (!newUser) {
+      throw boom.badRequest('create user failed');
+    }
+    const info = {
+      from: 'hpereira@sofycode.com',
+      to: `${newUser.dataValues.email}`,
+      subject: "Activación de cuenta",
+      html: `<b>${newUser.dataValues.verifyCode}`,
+    }
+    const rta = await this.sendEmail(info);
+    return rta;
+  }
 }
 
 module.exports = AuthServices;
