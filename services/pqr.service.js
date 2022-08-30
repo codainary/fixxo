@@ -1,8 +1,6 @@
 const boom = require('@hapi/boom');
 const { models } = require('../libs/sequelize');
 
-const ClaimantServices = require('./claimant.service');
-const service = new ClaimantServices();
 
 class pqrServices {
 

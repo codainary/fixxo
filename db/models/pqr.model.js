@@ -1,11 +1,12 @@
 const { Model, DataTypes, Sequelize } = require('sequelize');
 
-//const { USER_TABLE } = require('./user.model');
-const { CLAIMANT_TABLE } = require('./claimant.model');
+const { USER_TABLE } = require('./user.model');
+
 
 const PQR_TABLE = 'pqrs';
 
 const PqrSchema = {
+  
   id: {
     allowNull: false,
     autoIncrement: true,
@@ -13,50 +14,42 @@ const PqrSchema = {
     type: DataTypes.INTEGER
   },
   subject: {
-    allowNull: true,
-    type: DataTypes.STRING
+    allowNull: false,
+    type: DataTypes.STRING(80)
   },
   context: {
-    allowNull: true,
-    type: DataTypes.STRING
+    allowNull: false,
+    type: DataTypes.TEXT
   },
   issueAddress: {
     allowNull: true,
     field: 'issue_address',
-    type: DataTypes.TEXT(100) // ! Warning: PostgreSQL does not support TEXT with options. Plain `TEXT` will be used instead.
+    type: DataTypes.TEXT
   },
   status: {
     allowNull: false,
-    defaultValue: 0,
-    type: DataTypes.SMALLINT
+    type: DataTypes.INTEGER,
+    defaultValue: 0
   },
   type: {
     allowNull: false,
-    defaultValue: 0,
-    type: DataTypes.SMALLINT
+    type: DataTypes.INTEGER,
+    defaultValue: 0
   },
-  claimantId: {
-    field: 'claimant_id',
+  userId: {
+    field: 'user_id',
     allowNull: false,
     type: DataTypes.INTEGER,
     references: {
-      model: CLAIMANT_TABLE,
+      model: USER_TABLE,
       key: 'id'
     },
     onUpdate: 'CASCADE',
     onDelete: 'SET NULL',
   },
-  file: {
-    allowNull: true,
-    type: DataTypes.JSONB
-  },
-  // email: {
-  //   allowNull: false,
-  //   type: DataTypes.STRING
-  // },
   deleted: {
-    allowNull: true,
-    type: DataTypes.STRING,
+    allowNull: false,
+    type: DataTypes.BOOLEAN,
     defaultValue: false
   },
   createdAt: {
@@ -66,33 +59,19 @@ const PqrSchema = {
     defaultValue: Sequelize.NOW
   },
   updatedAt: {
-    allowNull: true,
+    allowNull: false,
     type: DataTypes.DATE,
     field: 'updated_at',
     defaultValue: Sequelize.NOW
-  },
-  // userId: {
-  //   field: 'user_id',
-  //   allowNull: true,
-  //   type: DataTypes.INTEGER,
-  //   //unique: true, not used for One to Many associations
-  //   references: {
-  //     model: USER_TABLE,
-  //     key: 'id'
-  //   },
-  //   onUpdate: 'CASCADE',
-  //   onDelete: 'SET NULL',
-  // }
+  }
+
 }
 
 class Pqr extends Model {
   static associate(models) {
     // associate
-    this.hasOne(models.Maintenance, {
-      as: 'maintenance',
-      foreignKey: 'pqrId'
-    });
-    this.belongsTo(models.Claimant, { as: 'claimant' });
+    this.belongsTo(models.User, { as: 'user' });
+
   }
 
   static config(sequelize) {

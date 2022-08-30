@@ -30,6 +30,7 @@ const UserSchema = {
     type: DataTypes.STRING(10)
   },
   email: {
+    unique: true,
     allowNull: false,
     type: DataTypes.STRING(50)
   },
@@ -44,7 +45,7 @@ const UserSchema = {
   },
   address: {
     allowNull: true,
-    type: DataTypes.TEXT(100)
+    type: DataTypes.TEXT
   },
   recoveryToken: {
     allowNull: true,
@@ -87,7 +88,7 @@ const UserSchema = {
 
 class User extends Model {
   static associate(models) {
-    this.hasOne(models.Pqr, {
+    this.hasMany(models.Pqr, {
       as: 'pqr',
       foreignKey: 'userId'
     });
