@@ -1,67 +1,67 @@
-const boom = require('@hapi/boom');
+// const boom = require('@hapi/boom');
 
-const { models } = require('../libs/sequelize');
+// const { models } = require('../libs/sequelize');
 
-class maintenanceServices {
+// class maintenanceServices {
 
-  constructor() { }
+//   constructor() { }
 
-  async create(data) {
-    const maintenance = models.Maintenance.create(data);
-    return maintenance;
-  }
+//   async create(data) {
+//     const maintenance = models.Maintenance.create(data);
+//     return maintenance;
+//   }
 
-  async find() {
-    const rta = await models.Maintenance.findAll({
-      include: [
-        
-        {
-          association: 'pqr',
-          include: 'user'
-        },
-        'order'
-      ]
-    });
-    return rta;
-  }
+//   async find() {
+//     const rta = await models.Maintenance.findAll({
+//       include: [
 
-  async findByUser(userId) {
-    const maintenances = await models.Maintenance.findAll({
-      where:{
-        '$pqr.user.id$': userId
-      },
-      include: [
-        {
-          association: 'pqr',
-          include: 'user'
-        },
-       //'order' NOT YET
-      ]
-    });
-    return maintenances;
-  }
+//         {
+//           association: 'pqr',
+//           include: 'user'
+//         },
+//         'order'
+//       ]
+//     });
+//     return rta;
+//   }
 
-  async findOne(id) {
-    const maintenance = await models.Maintenance.findByPk(id);
-    if (!maintenance) {
-      throw boom.notFound('maintenance not found');
-    }
-    return maintenance;
-  }
+//   async findByUser(userId) {
+//     const maintenances = await models.Maintenance.findAll({
+//       where:{
+//         '$pqr.user.id$': userId
+//       },
+//       include: [
+//         {
+//           association: 'pqr',
+//           include: 'user'
+//         },
+//        //'order' NOT YET
+//       ]
+//     });
+//     return maintenances;
+//   }
 
-  async update(id, changes) {
-    const maintenance = await this.findOne(id);
-    const rta = await maintenance.update(changes);
-    return rta;
-  }
+//   async findOne(id) {
+//     const maintenance = await models.Maintenance.findByPk(id);
+//     if (!maintenance) {
+//       throw boom.notFound('maintenance not found');
+//     }
+//     return maintenance;
+//   }
 
-  async delete(id) {
-    const maintenance = await this.findOne(id);
-    await maintenance.destroy();
-    return { id };
-  }
+//   async update(id, changes) {
+//     const maintenance = await this.findOne(id);
+//     const rta = await maintenance.update(changes);
+//     return rta;
+//   }
+
+//   async delete(id) {
+//     const maintenance = await this.findOne(id);
+//     await maintenance.destroy();
+//     return { id };
+//   }
 
 
-}
+// }
 
-module.exports = maintenanceServices;
+// module.exports = maintenanceServices;

@@ -10,55 +10,85 @@ const UserSchema = {
     primaryKey: true,
     type: DataTypes.INTEGER
   },
-  username: {
+  identification: {
+    unique: true,
     allowNull: false,
-    type: DataTypes.STRING,
-    unique: true
+    type: DataTypes.STRING(20)
+  },
+  firstName: {
+    allowNull: false,
+    field: 'first_name',
+    type: DataTypes.STRING(20)
+  },
+  lastName: {
+    allowNull: false,
+    field: 'last_name',
+    type: DataTypes.STRING(20)
+  },
+  phone: {
+    allowNull: false,
+    type: DataTypes.STRING(10)
+  },
+  email: {
+    allowNull: false,
+    type: DataTypes.STRING(50)
+  },
+  username: {
+    unique: true,
+    allowNull: false,
+    type: DataTypes.STRING(15)
   },
   password: {
     allowNull: false,
     type: DataTypes.STRING
+  },
+  address: {
+    allowNull: true,
+    type: DataTypes.TEXT(100)
   },
   recoveryToken: {
     allowNull: true,
     field: 'recovery_token',
     type: DataTypes.STRING
   },
+  verifyCode: {
+    allowNull: true,
+    field: 'verify_code',
+    type: DataTypes.STRING(6)
+  },
+  active: {
+    allowNull: false,
+    type: DataTypes.BOOLEAN,
+    defaultValue: false
+  },
   role: {
     allowNull: false,
-    type: DataTypes.STRING,
-    defaultValue: 'claimant'
+    type: DataTypes.INTEGER,
+    defaultValue: 0
   },
   deleted: {
     allowNull: false,
     type: DataTypes.BOOLEAN,
     defaultValue: false
   },
-  email: {
-    allowNull: false,
-    type: DataTypes.STRING,
-    unique: true
-  },
   createdAt: {
     allowNull: false,
     type: DataTypes.DATE,
     field: 'created_at',
+    defaultValue: Sequelize.NOW
+  },
+  updatedAt: {
+    allowNull: false,
+    type: DataTypes.DATE,
+    field: 'updated_at',
     defaultValue: Sequelize.NOW
   }
 }
 
 class User extends Model {
   static associate(models) {
-    // this.hasMany(models.Pqr, {
-    //   as: 'pqrs',
-    //   foreignKey: 'userId'
-    // });
-    this.hasOne(models.Official, {
-      as: 'official',
-      foreignKey: 'userId'
-    });
-    this.hasOne(models.Claimant, {
-      as: 'claimant',
+    this.hasOne(models.Pqr, {
+      as: 'pqr',
       foreignKey: 'userId'
     });
   }

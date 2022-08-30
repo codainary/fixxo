@@ -1,25 +1,57 @@
 const boom = require('@hapi/boom');
 const { models } = require('../libs/sequelize');
 
+const ClaimantServices = require('./claimant.service');
+const service = new ClaimantServices();
+
 class pqrServices {
 
   constructor() { }
 
   async create(data) {
 
-    //TODO: Validate if claiment or user exists.
+    try {
 
-    const newPqr = await models.Pqr.create(data, { include: { all: true, nested: true } });
-    delete newPqr.dataValues.claimant.dataValues.user.dataValues.password
+      let newData;
+      const options = {}
 
-    if (newPqr) {
-      //TODO: Create token to sign in if user want to track your pqrs status.
+      const claimantId = data.claimant.claimant_id;
+
+      const claimant = await service.findByClaimentId(claimantId);
+
+      console.log("------------> CLAIMANT", claimant);
+
+      if (!claimant) {
+
+        newData.data;
+
+        options.include = {
+          all: true,
+          nested: true
+        }
+
+
+      } else {
+
+        console.log("------------> EXISTE")
+
+
+      }
+
+      const newPqr = await models.Pqr.create(newData, options);
+
+      //delete newPqr.dataValues.claimant.dataValues.user.dataValues.password
+
+      //TODO: Upload file to S3 and crear a document in db.
+      //TODO: Create token to sign in if user want to track your pqrs status loging in.
+      //TODO: Email me via email
+
+      return claimant;
+
+    } catch (error) {
+      console.log("------------> ERROR", error);
+      //throw boom.internal();
     }
-
-    // emailme via email
-
-
-    return newPqr;
 
   }
 
