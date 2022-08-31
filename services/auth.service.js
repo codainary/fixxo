@@ -94,11 +94,11 @@ class AuthServices {
     if (findUser) {
       throw boom.unauthorized('user exists');
     }
-    const code = Math.floor(100000 + Math.random() * 900000).toString();
-    data.verifyCode = code;
+    const randomCode = Math.floor(100000 + Math.random() * 900000).toString();
+    data.verifyCode = randomCode;
     const newUser = await service.create(data);
     if (!newUser) {
-      throw boom.badRequest('create user failed');
+      throw boom.badRequest('creation failed');
     }
     const info = {
       from: 'hpereira@sofycode.com',
