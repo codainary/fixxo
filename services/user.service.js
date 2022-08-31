@@ -20,7 +20,11 @@ class UserServices {
 
   async findByUsername(username) {
     const users = await models.User.findOne({
-      where: { username }
+      where: {
+        username,
+        active: true,
+        deleted: false
+      }
     });
     return users;
   }
@@ -47,10 +51,10 @@ class UserServices {
   }
 
   async delete(id) {
+    const user = await this.findOne(id);
+    await user.destroy();
     return { id };
   }
-
-
 }
 
 module.exports = UserServices;

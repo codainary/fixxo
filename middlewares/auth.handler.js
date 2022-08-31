@@ -26,7 +26,7 @@ function checkRoles(...roles) {
     if (roles.includes(user.role)) {
       next();
     } else {
-      next(boom.forbidden('not admin'));
+      next(boom.forbidden('insufficient permissions'));
     }
   }
 }
