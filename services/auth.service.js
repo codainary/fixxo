@@ -1,9 +1,9 @@
 const boom = require('@hapi/boom');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const nodemailer = require('nodemailer');
-
+//const nodemailer = require('nodemailer');
 const { config } = require('./../config/config');
+const { sendEmail} = require('./../utils/helpers/send.helper');
 
 const UserServices = require('./user.service');
 const service = new UserServices();
@@ -50,10 +50,10 @@ class AuthServices {
     const mail = {
       from: 'hpereira@sofycode.com', // sender address
       to: `${user.email}`, // list of receivers
-      subject: "Recuperar contraseña", // Subject line
+      subject: 'Recuperar contraseña', // Subject line
       html: `<b>Ingresa a este link => ${link} </b>`, // html body
     }
-    const rta = await this.sendEmail(mail);
+    const rta = await sendEmail(mail);
     return rta;
 
   }
@@ -73,21 +73,21 @@ class AuthServices {
     }
   }
 
-  async sendEmail(info) {
+  // async sendEmail(info) {
 
-    const transporter = nodemailer.createTransport({
-      host: config.smtpHost,
-      secure: true, // true for 465, false for other ports
-      port: config.smtpPort,
-      auth: {
-        user: config.smtpUsername,
-        pass: config.smtpPassword
-      }
-    });
-    await transporter.sendMail(info);
-    return { message: 'email sent' }
+  //   const transporter = nodemailer.createTransport({
+  //     host: config.smtpHost,
+  //     secure: true, // true for 465, false for other ports
+  //     port: config.smtpPort,
+  //     auth: {
+  //       user: config.smtpUsername,
+  //       pass: config.smtpPassword
+  //     }
+  //   });
+  //   await transporter.sendMail(info);
+  //   return { message: 'email sent' }
 
-  }
+  // }
 
   async createUser(data) {
     const findUser = await service.findByUsername(data.username);
@@ -98,15 +98,15 @@ class AuthServices {
     data.verifyCode = randomCode;
     const newUser = await service.create(data);
     if (!newUser) {
-      throw boom.badRequest('creation failed');
+      throw boom.badRequest('register failed');
     }
     const info = {
       from: 'hpereira@sofycode.com',
       to: `${newUser.dataValues.email}`,
-      subject: "Activación de cuenta",
+      subject: 'Activación de cuenta',
       html: `<b>${newUser.dataValues.verifyCode}`,
     }
-    const rta = await this.sendEmail(info);
+    const rta = await sendEmail(info);
     return rta;
   }
 }
