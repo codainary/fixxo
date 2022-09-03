@@ -64,7 +64,8 @@ router.patch('/:id',
     } catch (error) {
       next(error);
     }
-  });
+  }
+);
 
 router.delete('/:id',
   passport.authenticate('jwt', { session: false }),
