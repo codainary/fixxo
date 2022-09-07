@@ -3,7 +3,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 //const nodemailer = require('nodemailer');
 const { config } = require('./../config/config');
-const { sendEmail} = require('./../utils/helpers/send.helper');
+const { sendEmail } = require('./../utils/helpers/send.helper');
 
 const UserServices = require('./user.service');
 const service = new UserServices();
@@ -104,9 +104,24 @@ class AuthServices {
       from: 'hpereira@sofycode.com',
       to: `${newUser.dataValues.email}`,
       subject: 'Activación de cuenta',
-      html: `<b>${newUser.dataValues.verifyCode}`,
+      html: `<p>El código de verificación es: ${newUser.dataValues.verifyCode}</p>`,
     }
-    const rta = await sendEmail(info);
+    const email = await sendEmail(info);
+    return {
+      newUser,
+      email
+    };
+  }
+
+  async verify(username, code) {
+    const user = await service.findByUsernameToVerify(username);
+    if (!user) {
+      throw boom.notFound();
+    }
+    if (user.verifyCode !== code) {
+      throw boom.unauthorized();
+    }
+    const rta = await service.update(user.id, { verifyCode: null, active: true });
     return rta;
   }
 }

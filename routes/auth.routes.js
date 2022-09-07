@@ -47,11 +47,22 @@ router.post('/sign-up',
     try {
       const body = req.body;
       const rta = await service.createUser(body);
-      res.status(201).json({ rta, msg: 'User created' });
+      res.status(201).json(rta);
     } catch (error) {
       next(error);
     }
   }
 );
+
+router.post('/verify',
+  async (req, res, next) => {
+    try {
+      const { username, code } = req.body;
+      const rta = await service.verify(username, code);
+      res.json(rta);
+    } catch (error) {
+      next(error);
+    }
+  });
 
 module.exports = router;

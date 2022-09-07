@@ -13,7 +13,7 @@ async function sendEmail(info) {
     }
   });
   await transporter.sendMail(info);
-  return { message: 'email sent' }
+  return { status: 'email sent' }
 }
 
 module.exports = {

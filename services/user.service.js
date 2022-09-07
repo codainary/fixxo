@@ -29,6 +29,17 @@ class UserServices {
     return users;
   }
 
+  async findByUsernameToVerify(username) {
+    const users = await models.User.findOne({
+      where: {
+        username,
+        active: false,
+        deleted: false
+      }
+    });
+    return users;
+  }
+
   async findByEmail(email) {
     const user = await models.User.findOne({
       where: { email }
